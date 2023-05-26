@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class Hero_stat : MonoBehaviour
+public class Hero : MonoBehaviour
 {
     [SerializeField] private float speed = 3f;
     [SerializeField] private int lives = 5;
@@ -21,22 +20,29 @@ public class Hero_stat : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
+
+    private States State
+    {
+        get {return (States)anim.GetInteger("state");}
+        set {anim.SetInteger("state", (int)value);}
+    }
     
     private void FixedUpdate()
     {
-        Console.WriteLine(isGrounded);
         CheckGround();
     }
 
     private void Update(){
+        // CheckGround();
+
         if (isGrounded) State = States.idle;
 
         if (Input.GetButton("Horizontal"))
             Run();
         
-        if (Input.GetButtonDown("Jump"))
+        if (isGrounded && Input.GetButtonDown("Jump"))
             Jump();
-            // isGrounded && 
+             
     }
 
     private void Run()
@@ -46,7 +52,7 @@ public class Hero_stat : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, speed * Time.deltaTime);
         
-        sprite.flipX = dir.x < 0.0f;
+        sprite.flipX = dir.x < 0.1f;
     }
 
 
@@ -57,21 +63,31 @@ public class Hero_stat : MonoBehaviour
     }
 
     private void CheckGround()
-    {
-        Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 0.3f);
-        isGrounded = collider.Length >1;
+    {   
+        Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 1);
+        isGrounded = collider.Length > 1;
+        // Debug.Log("colider.Length = " + collider.Length);
         if (!isGrounded) State = States.jump;
     }
 
-    public enum States{
-        idle,
-        run,
-        jump,
-        fall
-    }
+    public static Hero Instance {get; set;}
+    
 
-    private States State{
-        get {return (States)anim.GetInteger("state");}
-        set {anim.SetInteger("state", (int)value);}
+    public void GetDamage(){
+        lives -=1;
+        Debug.Log(lives);
+
+        if (lives < 1){
+            Debug.Log("DIE");
+            //Die();
+        }
     }
+}
+
+public enum States
+{
+    idle,
+    run,
+    jump,
+    fall
 }

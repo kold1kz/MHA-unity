@@ -20,7 +20,7 @@ public class Parallax_background : MonoBehaviour
     void Update()
     {
         float distX = (cam.transform.position.x * (1 - parallax));
-        float distY = (cam.transform.position.y * (1 - parallax));
-		transform.position = new Vector3(startPosX + distX, startPosY + distY, transform.position.z); 
+        // float distY = (cam.transform.position.y * (1 - parallax));
+		transform.position = new Vector3(startPosX + distX, startPosY, transform.position.z); 
 	}
 }
