@@ -70,7 +70,7 @@ public class Hero : MonoBehaviour
         if (!isGrounded) State = States.jump;
     }
 
-    public static Hero Instance {get; set;}
+    public static Hero Instance { get; set; }
     
 
     public void GetDamage(){

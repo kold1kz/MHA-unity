@@ -12,7 +12,7 @@ public class Enemy_die: MonoBehaviour
         if (collision.gameObject == Hero.Instance.gameObject){
             Hero.Instance.GetDamage();
             lives--;
-            Debug.Log(lives);
+            Debug.Log("у боса" + lives);
         }
 
         if (lives < 1){
