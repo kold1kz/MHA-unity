@@ -23,7 +23,7 @@ public class Scrolling: MonoBehaviour
         lastCameraX = cameraTransform.position.x;
 
         layers = new Transform[transform.childCount];
-        for ( int i =0; i < transform.childCount;i++){
+        for ( int i = 0; i < transform.childCount; i++){
             layers[i] = transform.GetChild(i);
         }
         leftIndex = 0;
@@ -33,7 +33,7 @@ public class Scrolling: MonoBehaviour
     private void Update(){
         if(paralax) {
             float deltaX = cameraTransform.position.x - lastCameraX;
-            transform.position += Vector3.right * (deltaX + paralaxSpeed);
+            transform.position += Vector3.right * (deltaX * paralaxSpeed);
         }
         lastCameraX = cameraTransform.position.x;
 
@@ -42,7 +42,7 @@ public class Scrolling: MonoBehaviour
                 ScrollLeft();
             }
 
-            if (cameraTransform.position.x > (layers[rightIndex].transform.position.x + viewZone)){
+            if (cameraTransform.position.x > (layers[rightIndex].transform.position.x - viewZone)){
                 ScrollRight();
             }
         }
@@ -55,7 +55,7 @@ public class Scrolling: MonoBehaviour
         leftIndex = rightIndex;
         rightIndex--;
 
-        if ( rightIndex <0){
+        if ( rightIndex < 0){
             rightIndex = layers.Length - 1;
         }
     }
@@ -66,8 +66,8 @@ public class Scrolling: MonoBehaviour
         rightIndex = leftIndex;
         leftIndex++;
 
-        if ( leftIndex == layers.Length){
-            leftIndex = layers.Length - 1;
+        if (leftIndex == layers.Length){
+            leftIndex = 0;
         }
     }
 }

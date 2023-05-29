@@ -51,6 +51,10 @@ public class Hero : MonoBehaviour
         if (transform.position.y < -15f){
             HeroDie();
         }
+
+        if (transform.position.x >= 120f){
+            HeroWin();
+        }
         
              
     }
@@ -106,6 +110,10 @@ public class Hero : MonoBehaviour
         // if(!deathScreen.actifeSelf){
         //     deathScreen.SetActivate(true);
         // }
+    }
+
+    public void HeroWin(){
+        SceneManager.LoadScene("WinScence");
     }
 }
 
