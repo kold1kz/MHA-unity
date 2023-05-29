@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Enemy_die: MonoBehaviour
+public class Boss_enemy : Entity
 {
   [SerializeField] private int lives = 3;
 
@@ -17,7 +17,7 @@ public class Enemy_die: MonoBehaviour
 
         if (lives < 1){
             Debug.Log("DIE");
-            // Die();
+            Die();
         }
   }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Hero : MonoBehaviour
 {
@@ -14,18 +15,22 @@ public class Hero : MonoBehaviour
 
     private Animator anim;
 
+    public static Hero Instance { get; set; }
+
+     private States State
+    {
+        get {return (States)anim.GetInteger("state");}
+        set {anim.SetInteger("state", (int)value);}
+    }
+
     private void Awake()
     {
+        Instance = this;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
-    private States State
-    {
-        get {return (States)anim.GetInteger("state");}
-        set {anim.SetInteger("state", (int)value);}
-    }
     
     private void FixedUpdate()
     {
@@ -42,6 +47,11 @@ public class Hero : MonoBehaviour
         
         if (isGrounded && Input.GetButtonDown("Jump"))
             Jump();
+        
+        if (transform.position.y < -15f){
+            HeroDie();
+        }
+        
              
     }
 
@@ -66,21 +76,36 @@ public class Hero : MonoBehaviour
     {   
         Collider2D[] collider = Physics2D.OverlapCircleAll(transform.position, 1);
         isGrounded = collider.Length > 1;
-        // Debug.Log("colider.Length = " + collider.Length);
         if (!isGrounded) State = States.jump;
     }
 
-    public static Hero Instance { get; set; }
-    
-
+   
     public void GetDamage(){
         lives -=1;
         Debug.Log(lives);
 
         if (lives < 1){
             Debug.Log("DIE");
-            //Die();
+            HeroDie();
         }
+    }
+
+    // private void Respawn(){
+    //     Instantiate(playerPrefab, respawnPoint.position, Quaternion.idemtity); 
+    // }
+
+    private void ReStart(){
+        SceneManager.LoadScene("GameScene");
+    }
+
+    public void HeroDie(){
+        Destroy(this.gameObject);
+        Invoke("Die", 2f);
+        //Hero.speed = 0;
+        ReStart();
+        // if(!deathScreen.actifeSelf){
+        //     deathScreen.SetActivate(true);
+        // }
     }
 }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class All_enemy: MonoBehaviour
+public class Entity : MonoBehaviour
 {
    public virtual void GetDamage() 
    {
