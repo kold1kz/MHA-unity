@@ -52,7 +52,7 @@ public class Hero : MonoBehaviour
             HeroDie();
         }
 
-        if (transform.position.x >= 120f){
+        if (transform.position.x >= 128f){
             HeroWin();
         }
         
